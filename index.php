@@ -22,7 +22,7 @@
     <div class="video-background">
         <video autoplay muted loop class="video-content">
             <source src="assets\hero.mp4" type="video/mp4">
-            Your browser does not support the video tag.
+            Your browser does  the video tag.
         </video>
     </div>
 
