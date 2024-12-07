@@ -1,0 +1,116 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Georgia', serif;
+    box-sizing: border-box;
+}
+
+/* Color Palette */
+:root {
+    --nude-bg: #f7f1ed;
+    --nude-accent: #e6ddd4;
+    --golden-text: #a37e55;
+    --button-color: #d5b89b;
+    --button-hover: #bfa287;
+    --transparent-bg: rgba(255, 255, 255, 0.7);
+}
+
+/* Video Background */
+.video-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+}
+
+.video-content {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+/* Navigation Bar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: var(--transparent-bg);
+    color: var(--golden-text);
+    position: absolute;
+    width: 100%;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.navbar .logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links li {
+    display: inline;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--golden-text);
+    font-size: 18px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: var(--button-color);
+}
+
+/* Content Section */
+.content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: var(--golden-text);
+    background: var(--transparent-bg);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.content h1 {
+    font-size: 48px;
+    margin-bottom: 10px;
+}
+
+.content p {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.btn {
+    background-color: var(--button-color);
+    color: white;
+    padding: 15px 30px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.btn:hover {
+    background-color: var(--button-hover);
+}
