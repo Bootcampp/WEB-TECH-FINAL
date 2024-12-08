@@ -17,7 +17,7 @@
         <div class="login-form">
             <h1>Welcome Back!</h1>
             <p>Log in to access your account and explore bridal collections.</p>
-            <form action="process-login.php" method="POST">
+            <form action="../actions/login_user.php" method="POST">
                 <div class="form-group">
                     <label for="email">Email Address</label>
                     <input type="email" id="email" name="email" required>

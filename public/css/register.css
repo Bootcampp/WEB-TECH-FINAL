@@ -1,12 +1,30 @@
-/* Sign Up Page Container */
-.signup-container {
+body{
+    padding: 100px ;
+    background: linear-gradient(to bottom right,  #bfa287, #a37e55); 
+    overflow-y: hidden;
+    margin-top: -50px;
+
+}
+
+/* Login Page Container */
+.login-container {
     display: flex;
-    height: 100vh;
+    height: 90vh;
     width: 100%;
 }
 
+/* Color Palette */
+:root {
+    --nude-bg: #f7f1ed;
+    --nude-accent: #e6ddd4;
+    --golden-text: #a37e55;
+    --button-color: #d5b89b;
+    --button-hover: #bfa287;
+    --transparent-bg: rgba(255, 255, 255, 0.7);
+}
+
 /* Left Half: Image */
-.signup-image {
+.login-image {
     flex: 1;
     background-color: var(--nude-bg);
     display: flex;
@@ -14,14 +32,14 @@
     align-items: center;
 }
 
-.signup-image img {
+.login-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
 /* Right Half: Form */
-.signup-form {
+.login-form {
     flex: 1;
     background-color: var(--nude-accent);
     display: flex;
@@ -31,13 +49,13 @@
     padding: 40px;
 }
 
-.signup-form h1 {
+.login-form h1 {
     font-size: 36px;
     color: var(--golden-text);
     margin-bottom: 10px;
 }
 
-.signup-form p {
+.login-form p {
     color: var(--golden-text);
     margin-bottom: 20px;
     font-size: 16px;
@@ -86,17 +104,52 @@
     background-color: var(--button-hover);
 }
 
-.login-link {
+.register-link {
     margin-top: 10px;
     font-size: 14px;
     color: var(--golden-text);
 }
 
-.login-link a {
+.register-link a {
     text-decoration: none;
     color: var(--button-color);
 }
 
-.login-link a:hover {
+.register-link a:hover {
     text-decoration: underline;
+}
+
+
+
+
+
+/* Enhanced Select Dropdown Styling */
+#role_id {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: white;
+    font-size: 16px;
+    appearance: none; /* Removes default browser styling */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+    background-repeat: no-repeat;
+    background-position-x: 95%;
+    background-position-y: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#role_id:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+#role_id option {
+    padding: 10px;
+    background-color: white;
+    color: black;
 }

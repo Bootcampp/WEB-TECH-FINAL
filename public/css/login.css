@@ -1,8 +1,26 @@
+body{
+    padding: 100px;
+    background: linear-gradient(to bottom right,  #bfa287, #a37e55); 
+    overflow-y: hidden;
+    margin-top: -40px;
+
+}
+
 /* Login Page Container */
 .login-container {
     display: flex;
-    height: 100vh;
+    height: 90vh;
     width: 100%;
+}
+
+/* Color Palette */
+:root {
+    --nude-bg: #f7f1ed;
+    --nude-accent: #e6ddd4;
+    --golden-text: #a37e55;
+    --button-color: #d5b89b;
+    --button-hover: #bfa287;
+    --transparent-bg: rgba(255, 255, 255, 0.7);
 }
 
 /* Left Half: Image */
