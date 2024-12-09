@@ -26,7 +26,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             VALUES ('$full_name', '$email', '$hashed_password', '$role_id', 1)";
     
     if (mysqli_query($conn, $sql)) {
-        // If user is successfully created, redirect to login page
+        // Get the newly created user's ID
+        $user_id = mysqli_insert_id($conn);
+
+        // If the user is a designer, add an entry to the designers table
+        if ($role_id == 2) { // Assuming '2' is the role ID for designers
+            $designer_sql = "INSERT INTO designers (user_id) VALUES ('$user_id')";
+            if (!mysqli_query($conn, $designer_sql)) {
+                // Handle error if the designer entry fails
+                header("Location: ../view/signup.php?msg=Error%20registering%20designer.");
+                exit();
+            }
+        }
+
+        // If successful, redirect to login page
         header("Location: ../view/login.php?msg=Registration%20successful.%20Please%20log%20in.");
         exit();
     } else {

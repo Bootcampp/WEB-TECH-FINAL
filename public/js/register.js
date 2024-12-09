@@ -1,43 +1,62 @@
-document.getElementById('signupForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent form submission until validation passes
+document.addEventListener("DOMContentLoaded", function () {
+    const signupForm = document.getElementById("signupForm");
 
-    // Get form field values
-    const fullName = document.getElementById('fullname').value.trim();
-    // const lastName = document.getElementById('lastname').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
+    signupForm.addEventListener("submit", function (event) {
+        // Prevent the form from submitting until validation completes
+        event.preventDefault();
 
-    // expression for email validation (must end with @gmail.com)
-    const emailRegex = /^[^\s@]+@gmail\.com$/;
-    
-    // Password validation: At least 1 uppercase, 3 digits, 1 special character, and minimum 8 characters
-    const passwordRegex = /^(?=.*[A-Z])(?=(.*\d){3,})(?=.*[!@#\$%\^&\*\|])[A-Za-z\d!@#\$%\^&\*\|]{8,}$/;
+        // Get form field values
+        const fullName = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("confirm-password").value;
+        const role = document.getElementById("role_id").value;
 
-    // Check if all fields are filled
-    if (!fullName || !email || !password || !confirmPassword) {
-        alert('All fields are required.');
-        return;
-    }
+        // Initialize validation state and error messages
+        let isValid = true;
+        let errorMessages = [];
 
-    // Validate email format
-    if (!emailRegex.test(email)) {
-        alert('Email must end with @gmail.com.');
-        return;
-    }
+        // Full Name Validation
+        if (fullName === "") {
+            isValid = false;
+            errorMessages.push("Full Name is required.");
+        }
 
-    // Validate password strength
-    if (!passwordRegex.test(password)) {
-        alert('Password must be at least 8 characters long, contain an uppercase letter, at least 3 digits, and a special character.');
-        return;
-    }
+        // Email Validation: Must end with @gmail.com
+        const emailRegex = /^[^\s@]+@gmail\.com$/;
+        if (!emailRegex.test(email)) {
+            isValid = false;
+            errorMessages.push("Email must end with @gmail.com.");
+        }
 
-    // Check if passwords match
-    if (password !== confirmPassword) {
-        alert('Passwords do not match.');
-        return;
-    }
+        // Password Validation
+        const passwordRegex = /^(?=.*[A-Z])(?=(.*\d){3,})(?=.*[!@#\$%\^&\*\|])[A-Za-z\d!@#\$%\^&\*\|]{8,}$/;
+        if (!passwordRegex.test(password)) {
+            isValid = false;
+            errorMessages.push(
+                "Password must be at least 8 characters long, contain an uppercase letter, at least 3 digits, and a special character (!@#$%^&*|)."
+            );
+        }
 
-    // If all validation passes, submit the form
-    this.submit(); 
+        // Confirm Password Validation
+        if (password !== confirmPassword) {
+            isValid = false;
+            errorMessages.push("Passwords do not match.");
+        }
+
+        // Role Validation
+        if (role === "") {
+            isValid = false;
+            errorMessages.push("Please select a role.");
+        }
+
+        // If validation fails, display error messages and stop submission
+        if (!isValid) {
+            alert("Form submission failed:\n\n" + errorMessages.join("\n"));
+            return; // Stop here if validation fails
+        }
+
+        // If validation passes, submit the form
+        signupForm.submit();
+    });
 });

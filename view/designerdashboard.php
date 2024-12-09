@@ -30,6 +30,8 @@
             <section class="upload-form">
                 <h2>Upload a New Design</h2>
                 <form action="../actions/add_dress.php" method="POST" enctype="multipart/form-data">
+        
+                    
                     <div class="form-group">
                         <label for="name">Dress Name</label>
                         <input type="text" id="name" name="name" placeholder="Enter dress name" required>

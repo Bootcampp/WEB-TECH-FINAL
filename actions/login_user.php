@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['role_id'] = $user['role_id'];
 
             // Redirect based on role_id (use numbers instead of role names)
-            $role_id = $user['role_id'];
+            $role_id = (int) $user['role_id'];
             
             // Check role_id and redirect accordingly
             if ($role_id === 1) { // Role ID 1 is 'user'

@@ -1,5 +1,6 @@
 <?php
 include '../config/connection.php'; // Include the database connection
+include '../config/core.php';  
 
 // Check if form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -70,11 +71,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     echo "New style inserted, style_id=$styleId<br>"; // Debugging: New style inserted
                 }
 
+                // Fetch the designer_id for the current user (assuming user_id is stored in the session)
+                $designerSql = "SELECT designer_id FROM designers WHERE user_id = ?";
+                $stmt = $conn->prepare($designerSql);
+                $stmt->bind_param("i", $_SESSION['user_id']); // Use the user_id from the session
+                $stmt->execute();
+                $designerResult = $stmt->get_result();
+
+                if ($designerResult && $designerResult->num_rows > 0) {
+                    // Fetch the designer_id
+                    $designerData = $designerResult->fetch_assoc();
+                    $designerId = $designerData['designer_id'];
+                    echo "Designer ID found: $designerId<br>"; // Debugging: Designer ID found
+                } else {
+                    // Handle the case where the designer entry is not found
+                    echo "Designer ID not found for user_id: " . $_SESSION['user_id'] . "<br>"; // Debugging
+                    header("Location: ../view/designerdashboard.php?msg=Designer%20not%20found.");
+                    exit();
+                }
+
                 // Insert the dress into the dresses table
-                $insertDressSql = "INSERT INTO dresses (designer_id, style_id, name, price, image_url, is_available) VALUES (?, ?, ?, ?, ?, ?)";
+                $insertDressSql = "INSERT INTO dresses (designer_id, style_id, name, price, image_url, is_available) 
+                                   VALUES (?, ?, ?, ?, ?, ?)";
                 $stmt = $conn->prepare($insertDressSql);
                 $isAvailable = 1; // Assuming the dress is available by default
-                $stmt->bind_param("iisssi", $_SESSION['user_id'], $styleId, $name, $price, $imagePath, $isAvailable);
+                $stmt->bind_param("iisssi", $designerId, $styleId, $name, $price, $imagePath, $isAvailable);
                 
                 // Debugging: Check the query before executing
                 echo "Executing query: $insertDressSql<br>";
@@ -120,5 +141,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit();
 }
 ?>
-
-
