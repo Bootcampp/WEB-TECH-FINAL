@@ -38,10 +38,10 @@ if (isset($_SESSION['user_id'])) {
         <aside class="sidebar">
             <h2>BridalConnect</h2>
             <ul>
-                <li><a href="designerdashboard.php">Dashboard</a></li>
-                <li><a href="upload_design.php">Upload New Design</a></li>
+                <li><a href="designerdashboard.php">Upload New Design</a></li>
                 <li><a href="profile.php">Profile</a></li>
-                <li><a href="logout.php">Logout</a></li>
+                <li><a href="../actions/logout.php">Logout</a></li>
+
             </ul>
         </aside>
 
