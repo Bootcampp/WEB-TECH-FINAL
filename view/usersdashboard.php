@@ -1,566 +1,112 @@
+<?php
+// Include necessary files for database connection
+include '../config/connection.php';
+session_start();
 
-<!doctype html>
+// Check if the user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../view/login.php");
+    exit();
+}
+
+require_once '../functions/page_direct.php';
+checkUserAccess(1);
+
+// Initialize search query
+$searchQuery = '';
+if (isset($_GET['search'])) {
+    $searchQuery = $_GET['search'];
+}
+
+// Fetch all designs with designer names and styles, filter by search query
+$sql = "SELECT 
+            d.dress_id, 
+            d.name AS dress_name, 
+            d.price, 
+            d.image_url, 
+            ds.style_name, 
+            u.full_name AS designer_name 
+        FROM dresses d
+        INNER JOIN dress_styles ds ON d.style_id = ds.style_id
+        INNER JOIN designers de ON d.designer_id = de.designer_id
+        INNER JOIN users u ON de.user_id = u.user_id
+        WHERE d.is_available = 1 
+        AND u.full_name LIKE ?";
+$stmt = $conn->prepare($sql);
+$searchTerm = "%$searchQuery%";
+$stmt->bind_param("s", $searchTerm);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Check if there are designs to display
+$designs = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $designs[] = $row;
+    }
+}
+$stmt->close();
+?>
+
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <title>Coffee Cafe - Restaurants Category Bootstrap Responsive Template | Coffees : AmnaCode</title>
-
-    <link href="//fonts.googleapis.com/css?family=Mukta:300,400,500" rel="stylesheet">
-
-    <!-- Template CSS -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users Dashboard</title>
     <link rel="stylesheet" href="../public/css/userdashboard.css">
-  </head>
-  <body>
-<!--header-->
-<header id="site-header" class="fixed-top">
-  <div class="container">
-      <nav class="navbar navbar-expand-lg stroke px-0 pt-lg-0">
-          <h1> <a class="navbar-brand" href="index.html">
-                  <span class="fa fa-coffee"></span> Coffee Cafe
-              </a></h1>
-          <!-- if logo is image enable this   
-  <a class="navbar-brand" href="#index.html">
-      <img src="image-path" alt="Your logo" title="Your logo" style="height:35px;" />
-  </a> -->
-          <button class="navbar-toggler  collapsed bg-gradient" type="button" data-toggle="collapse"
-              data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false"
-              aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon fa icon-expand fa-bars"></span>
-              <span class="navbar-toggler-icon fa icon-close fa-times"></span>
-          </button>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="../actions/logout.php" class="logout-btn">Logout</a>
 
-          <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-              <ul class="navbar-nav mx-lg-auto">
-                  <li class="nav-item @@home__active">
-                      <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
-                  </li>
-                  <li class="nav-item @@about__active">
-                      <a class="nav-link" href="about.html">About</a>
-                  </li>
-                  <li class="nav-item active">
-                      <a class="nav-link" href="services.html">Our coffees</a>
-                  </li>
-                  <li class="nav-item @@contact__active">
-                      <a class="nav-link" href="contact.html">Contact</a>
-                  </li>
-              </ul>
+            <form method="GET" action="" class="search-form">
+                <input 
+                    type="text" 
+                    name="search" 
+                    class="search-input" 
+                    placeholder="Search for designers..." 
+                    value="<?php echo htmlspecialchars($searchQuery); ?>"
+                >
+                <button type="submit" class="search-btn">Search</button>
+            </form>
+        </div>
+    </nav>
 
-              <!--/search-right-->
-              <div class="search-right">
-                  <a href="#search" title="search"><span class="fa fa-search" aria-hidden="true"></span></a>
-                  <!-- search popup -->
-                  <div id="search" class="pop-overlay">
-                      <div class="popup">
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <h1>Explore Bridal Designs</h1>
+            <p>Discover stunning dresses from top designers.</p>
+        </header>
 
-                          <form action="error.html" method="GET" class="search-box">
-                              <input type="search" placeholder="Enter Keyword" name="search" required="required"
-                                  autofocus="">
-                              <button type="submit" class="btn"><span class="fa fa-search"
-                                      aria-hidden="true"></span></button>
-                          </form>
-
-                      </div>
-                      <a class="close" href="#close">×</a>
-                  </div>
-                  <!-- /search popup -->
-              </div>
-              <!--//search-right-->
-              <div class="top-quote mr-lg-3 mt-lg-0">
-                  <a href="#buytheme" class="btn btn-style btn-primary">Buy Now</a>
-              </div>
-          </div>
-          <!-- toggle switch for light and dark theme -->
-          <div class="mobile-position">
-              <nav class="navigation">
-                  <div class="theme-switch-wrapper">
-                      <label class="theme-switch" for="checkbox">
-                          <input type="checkbox" id="checkbox">
-                          <div class="mode-container">
-                              <i class="gg-sun"></i>
-                              <i class="gg-moon"></i>
-                          </div>
-                      </label>
-                  </div>
-              </nav>
-          </div>
-          <!-- //toggle switch for light and dark theme -->
-      </nav>
-  </div>
-</header>
-<!--/header-->
-<section class="w3l-about-breadcrumb">
-    <div class="breadcrumb-bg breadcrumb-bg-about py-5">
-        <div class="container py-lg-4 py-md-3">
-            <h2 class="title">Your favourite Coffees are back</h2>
+        <!-- Designs Gallery -->
+        <div class="designs-gallery">
+            <?php if (!empty($designs)): ?>
+                <?php foreach ($designs as $design): ?>
+                    <div class="design-card">
+                        <img src="<?php echo htmlspecialchars($design['image_url']); ?>" alt="<?php echo htmlspecialchars($design['dress_name']); ?>" class="design-image">
+                        <div class="design-info">
+                            <h3><?php echo htmlspecialchars($design['dress_name']); ?></h3>
+                            <p class="designer-name">Designer: <?php echo htmlspecialchars($design['designer_name']); ?></p>
+                            <p class="style-name">Style: <?php echo htmlspecialchars($design['style_name']); ?></p>
+                            <p class="price">Price: $<?php echo htmlspecialchars($design['price']); ?></p>
+                            <div class="design-actions">
+                                <button class="btn save-btn">Save to Favorites</button>
+                                <button class="btn purchase-btn">Purchase</button>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>No designs available at the moment. Please check back later!</p>
+            <?php endif; ?>
         </div>
     </div>
-</section>
-<!-- tabs team-->
-<section class="team py-5" id="team">
-	<div class="container py-lg-5 py-md-4 py-2">
-		<ul class="nav nav-pills" id="pills-tab1" role="tablist">
-			<li class="nav-item">
-				<a class="nav-link active" id="pills-team1-tab" data-toggle="pill" href="#pills-team1" role="tab" aria-controls="pills-team1" aria-selected="true"><img src="assets/images/1.png" class="img-fluid" alt="" /></a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" id="pills-team2-tab" data-toggle="pill" href="#pills-team2" role="tab" aria-controls="pills-team2" aria-selected="false"><img src="assets/images/2.png" class="img-fluid" alt="" /></a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" id="pills-team3-tab" data-toggle="pill" href="#pills-team3" role="tab" aria-controls="pills-team3" aria-selected="false"><img src="assets/images/3.png" class="img-fluid" alt="" /></a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" id="pills-team4-tab" data-toggle="pill" href="#pills-team4" role="tab" aria-controls="pills-team4" aria-selected="false"><img src="assets/images/4.png" class="img-fluid" alt="" /></a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" id="pills-team5-tab" data-toggle="pill" href="#pills-team1" role="tab" aria-controls="pills-team1" aria-selected="true"><img src="assets/images/1.png" class="img-fluid" alt="" /></a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" id="pills-team6-tab" data-toggle="pill" href="#pills-team2" role="tab" aria-controls="pills-team2" aria-selected="false"><img src="assets/images/2.png" class="img-fluid" alt="" /></a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" id="pills-team7-tab" data-toggle="pill" href="#pills-team3" role="tab" aria-controls="pills-team3" aria-selected="false"><img src="assets/images/3.png" class="img-fluid" alt="" /></a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" id="pills-team8-tab" data-toggle="pill" href="#pills-team4" role="tab" aria-controls="pills-team4" aria-selected="false"><img src="assets/images/4.png" class="img-fluid" alt="" /></a>
-			</li>
-		</ul>
-		<div class="tab-content" id="pills-tabContent1">
-			<div class="tab-pane fade show active" id="pills-team1" role="tabpanel" aria-labelledby="pills-team1-tab">
-				<div class="team-grids row">
-					<div class="col-lg-6">
-						<img src="assets/images/1.png" class="img-fluid" alt="" />
-					</div>
-					<div class="col-lg-6 align-self mt-lg-0 mt-md-5 mt-4">
-						<h4>Espresso <span>Short & Intense - $19.50</span></h4>
-						<p class="pt-3">Donec malesuada ex sit amet pretium sid ornare. Nulla congue scelerisque tellus, utpretium. Mauris suscipit
-                        nisi ut ipsum egestas, et velit convallis. Phasellus rhoncus tempus. </p>
-                        <a href="#buy" class="btn btn-style btn-primary mt-md-5 mt-4">Buy Now</a>
-					</div>
-				</div>
-			</div>
-			<div class="tab-pane fade" id="pills-team2" role="tabpanel" aria-labelledby="pills-team2-tab">
-				<div class="team-grids row">
-					<div class="col-lg-6">
-						<img src="assets/images/2.png" class="img-fluid" alt="" />
-					</div>
-					<div class="col-lg-6 align-self mt-lg-0 mt-md-5 mt-4">
-						<h4>Americano <span> Simple and smooth - $17.50</span></h4>
-						<p class="pt-3">Donec malesuada ex sit amet pretium sid ornare. Nulla congue scelerisque tellus, utpretium. Mauris suscipit
-						nisi ut ipsum egestas, et velit convallis. Phasellus rhoncus tempus. </p>
-                        <a href="#buy" class="btn btn-style btn-primary mt-md-5 mt-4">Buy Now</a>
-					</div>
-				</div>
-			</div>
-			<div class="tab-pane fade" id="pills-team3" role="tabpanel" aria-labelledby="pills-team3-tab">
-				<div class="team-grids row">
-					<div class="col-lg-6">
-						<img src="assets/images/3.png" class="img-fluid" alt="" />
-					</div>
-					<div class="col-lg-6 align-self mt-lg-0 mt-md-5 mt-4">
-						<h4>Latte
-                            <span>Mild & Milky - $11.90</span></h4>
-						<p class="pt-3">Donec malesuada ex sit amet pretium sid ornare. Nulla congue scelerisque tellus, utpretium. Mauris suscipit
-						nisi ut ipsum egestas, et velit convallis. Phasellus rhoncus tempus. </p>
-                        <a href="#buy" class="btn btn-style btn-primary mt-md-5 mt-4">Buy Now</a>
-					</div>
-				</div>
-			</div>
-			<div class="tab-pane fade" id="pills-team4" role="tabpanel" aria-labelledby="pills-team4-tab">
-				<div class="team-grids row">
-					<div class="col-lg-6">
-						<img src="assets/images/4.png" class="img-fluid" alt="" />
-					</div>
-					<div class="col-lg-6 align-self mt-lg-0 mt-md-5 mt-4">
-						<h4>Cappuccino
-                            <span>Famously frothy - $9.00</span></h4>
-						<p class="pt-3">Donec malesuada ex sit amet pretium sid ornare. Nulla congue scelerisque tellus, utpretium. Mauris suscipit
-						nisi ut ipsum egestas, et velit convallis. Phasellus rhoncus tempus. </p>
-                        <a href="#buy" class="btn btn-style btn-primary mt-md-5 mt-4">Buy Now</a>
-					</div>
-				</div>
-			</div>
-			<div class="tab-pane fade show" id="pills-team5" role="tabpanel" aria-labelledby="pills-team1-tab">
-				<div class="team-grids row">
-					<div class="col-lg-6">
-						<img src="assets/images/1.png" class="img-fluid" alt="" />
-					</div>
-					<div class="col-lg-6 align-self mt-lg-0 mt-md-5 mt-4">
-						<h4>Cortado
-                            <span>Small & Luxurious - $15.00</span></h4>
-						<p class="pt-3">Donec malesuada ex sit amet pretium sid ornare. Nulla congue scelerisque tellus, utpretium. Mauris suscipit
-						nisi ut ipsum egestas, et velit convallis. Phasellus rhoncus tempus. </p>
-                        <a href="#buy" class="btn btn-style btn-primary mt-md-5 mt-4">Buy Now</a>
-					</div>
-				</div>
-			</div>
-			<div class="tab-pane fade" id="pills-team2" role="tabpanel" aria-labelledby="pills-team6-tab">
-				<div class="team-grids row">
-					<div class="col-lg-6">
-						<img src="assets/images/2.png" class="img-fluid" alt="" />
-					</div>
-					<div class="col-lg-6 align-self mt-lg-0 mt-md-5 mt-4">
-						<h4>Flat White
-                            <span>Rich & Velvety - $11.99</span></h4>
-						<p class="pt-3">Donec malesuada ex sit amet pretium sid ornare. Nulla congue scelerisque tellus, utpretium. Mauris suscipit
-						nisi ut ipsum egestas, et velit convallis. Phasellus rhoncus tempus. </p>
-                        <a href="#buy" class="btn btn-style btn-primary mt-md-5 mt-4">Buy Now</a>
-					</div>
-				</div>
-			</div>
-			<div class="tab-pane fade" id="pills-team3" role="tabpanel" aria-labelledby="pills-team7-tab">
-				<div class="team-grids row">
-					<div class="col-lg-6">
-						<img src="assets/images/3.png" class="img-fluid" alt="" />
-					</div>
-					<div class="col-lg-6 align-self mt-lg-0 mt-md-5 mt-4">
-						<h4>Espresso <span>Short & Intense - $19.50</span></h4>
-						<p class="pt-3">Donec malesuada ex sit amet pretium sid ornare. Nulla congue scelerisque tellus, utpretium. Mauris suscipit
-						nisi ut ipsum egestas, et velit convallis. Phasellus rhoncus tempus. </p>
-                        <a href="#buy" class="btn btn-style btn-primary mt-md-5 mt-4">Buy Now</a>
-					</div>
-				</div>
-			</div>
-			<div class="tab-pane fade" id="pills-team4" role="tabpanel" aria-labelledby="pills-team8-tab">
-				<div class="team-grids row">
-					<div class="col-lg-6">
-						<img src="assets/images/4.png" class="img-fluid" alt="" />
-					</div>
-					<div class="col-lg-6 align-self mt-lg-0 mt-md-5 mt-4">
-						<h4>Latte
-                            <span>Mild & Milky - $08.50</span></h4>
-						<p class="pt-3">Donec malesuada ex sit amet pretium sid ornare. Nulla congue scelerisque tellus, utpretium. Mauris suscipit
-						nisi ut ipsum egestas, et velit convallis. Phasellus rhoncus tempus. </p>
-                        <a href="#buy" class="btn btn-style btn-primary mt-md-5 mt-4">Buy Now</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-<!-- //tabs team -->
-<div class="w3l-text py-5">
-    <div class="container py-lg-5 py-4">
-        <div class="row text-inner">
-            <div class="col-lg-8 pr-lg-5 align-self">
-                <h3 class="title-big mb-4">Discover the Taste of Real Coffee</h3>
-                <p>We make the delicious coffee for the coffee lovers. We are a team of dedicated coffee fans who
-                    celebrate
-                    exceptional coffee brands and roasters.</p>
-                <a class="btn btn-style btn-primary mt-sm-5 mt-4 mr-lg-3 mr-1" href="#order"> Contact Us</a>
-                <a href="#small-dialog1"
-                    class="popup-with-zoom-anim play-view text-center position-absolute mt-sm-5 mt-4">
-                    <span class="video-play-icon">
-                        <span class="fa fa-play"></span>
-                    </span>
-                    Watch Our Video
-                </a>
-                <!-- dialog itself, mfp-hide class is required to make dialog hidden -->
-                <div id="small-dialog1" class="zoom-anim-dialog mfp-hide">
-                    <iframe src="https://www.youtube.com/embed/3zBcpK52ZSM" allow="autoplay; fullscreen"
-                        allowfullscreen=""></iframe>
-                </div>
-            </div>
-            <div class="col-lg-4 mt-lg-0 mt-4">
-                <img src="assets/images/3.png" class="img-fluid" alt="">
-            </div>
-        </div>
-    </div>
-</div>
-<section class="w3l-specification-6 py-5">
-    <!-- /specification-6-->
-    <div class="specification-6-mian py-lg-5 py-md-4">
-        <div class="container">
-            <div class="align-counter-6-inf-cols row">
-                <div class="counter-6-inf-right1 col-lg-6">
-                    <h3 class="title-big">All your favourites, delivered straight to you</h3>
-                    <p class="mt-4">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facilis, aliquid non?
-                        Suscipit numquam
-                        obcaecati necessitatibus voluptas. Molestias, sint atque aliquid magnam magni, fuga iste fugit
-                        iusto maiores vero soluta voluptates?</p>
-                    <a class="btn btn-style btn-primary mt-sm-5 mt-4" href="#order"> Start your Order</a>
-                </div>
-                <div class="counter-6-inf-left1 col-lg-6">
 
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- //specification-6-->
-<section class="w3l-footer-29-main">
-  <div class="footer-29 py-5">
-    <div class="container py-lg-4 py-sm-3">
-      <div class="row footer-top-29">
-        <div class="col-lg-5 footer-list-29 footer-1">
-          <h2><a href="index.html" class=""><span class="fa fa-coffee"></span> Coffee Cafe</a></h2>
-          <p>We make the delicious coffee for the coffee lovers. We are a team of dedicated coffee fans who celebrate
-            exceptional coffee brands and roasters by providing our guests the unique opportunity to try coffee drinks
-          </p>
-        </div>
-        <div class="col-lg-3 col-md-6 footer-list-29 footer-3 mt-lg-0 mt-5">
-          <h6 class="footer-title-29">Get in Touch</h6>
-
-          <div class="column2">
-            <div class="mb-2">
-              <span>Address :</span>
-              <p class="contact-para d-inline">2005 Stokes Isle Apt. 896, Coffee Cafe Center, USA.</p>
-            </div>
-            <div class="">
-              <span>E-mail :</span><a href="mailto:info@mail.com">info@mail.com</a>
-            </div>
-            <div class="mt-2">
-              <span>Phone :</span><a href="tel: +(21)-255-886-1234"> +(21)-255-886-1234</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-6 footer-list-29 footer-4 mt-lg-0 mt-5">
-          <h6 class="footer-title-29">Newsletter </h6>
-          <p>Enter your email and receive the latest news from us. We'll never share your email address</p>
-
-          <form action="#" class="subscribe" method="post">
-            <input type="email" name="email" placeholder="Your Email Address" required="">
-            <button><span class="fa fa-paper-plane"></span></button>
-          </form>
-        </div>
-      </div>
-
-    </div>
-  </div>
-  <div class="bottom-copies text-center">
-    <div class="container">
-      <p class="copy-footer-29">© 2020 Coffee Cafe. All rights reserved | Designed by <a
-          href="https://AmnaCode.com">AmnaCode</a></p>
-    </div>
-  </div>
-
-  <!-- move top -->
-  <button onclick="topFunction()" id="movetop" title="Go to top">
-    <span class="fa fa-angle-up"></span>
-  </button>
-  <script>
-    // When the user scrolls down 20px from the top of the document, show the button
-    window.onscroll = function () {
-      scrollFunction()
-    };
-
-    function scrollFunction() {
-      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-        document.getElementById("movetop").style.display = "block";
-      } else {
-        document.getElementById("movetop").style.display = "none";
-      }
-    }
-
-    // When the user clicks on the button, scroll to the top of the document
-    function topFunction() {
-      document.body.scrollTop = 0;
-      document.documentElement.scrollTop = 0;
-    }
-  </script>
-  <!-- //move top -->
-</section>
-
-<!-- Template JavaScript -->
-<script src="assets/js/jquery-3.3.1.min.js"></script>
-
-<script src="assets/js/theme-change.js"></script>
-
-<!-- js for portfolio lightbox -->
-<script src="assets/js/jquery-2.1.4.min.js"></script>
-<script src="assets/js/jquery.chocolat.js "></script>
-<!--light-box-files -->
-<script type="text/javascript ">
-  $(function () {
-    $('.w3_agile_portfolio_grid a').Chocolat();
-  });
-</script>
-<!-- /js for portfolio lightbox -->
-
-<script src="assets/js/jquery.magnific-popup.min.js"></script>
-<script>
-  $(document).ready(function () {
-    $('.popup-with-zoom-anim').magnificPopup({
-      type: 'inline',
-
-      fixedContentPos: false,
-      fixedBgPos: true,
-
-      overflowY: 'auto',
-
-      closeBtnInside: true,
-      preloader: false,
-
-      midClick: true,
-      removalDelay: 300,
-      mainClass: 'my-mfp-zoom-in'
-    });
-
-    $('.popup-with-move-anim').magnificPopup({
-      type: 'inline',
-
-      fixedContentPos: false,
-      fixedBgPos: true,
-
-      overflowY: 'auto',
-
-      closeBtnInside: true,
-      preloader: false,
-
-      midClick: true,
-      removalDelay: 300,
-      mainClass: 'my-mfp-slide-bottom'
-    });
-  });
-</script>
-
-<!-- script for testimonials -->
-<script>
-  $(document).ready(function () {
-    $('.owl-testimonial').owlCarousel({
-      loop: true,
-      margin: 0,
-      nav: true,
-      dots: false,
-      responsiveClass: true,
-      autoplay: false,
-      autoplayTimeout: 5000,
-      autoplaySpeed: 1000,
-      autoplayHoverPause: false,
-      responsive: {
-        0: {
-          items: 1,
-          nav: true
-        },
-        480: {
-          items: 1,
-          nav: true
-        },
-        667: {
-          items: 1,
-          nav: true
-        },
-        1000: {
-          items: 1,
-          nav: true
-        }
-      }
-    })
-  })
-</script>
-<!-- //script for testimonials -->
-
-<!-- script for blog slider -->
-<script>
-  $(document).ready(function () {
-    $('.owl-two').owlCarousel({
-      loop: true,
-      margin: 30,
-      nav: false,
-      responsiveClass: true,
-      autoplay: false,
-      autoplayTimeout: 5000,
-      autoplaySpeed: 1000,
-      autoplayHoverPause: false,
-      responsive: {
-        0: {
-          items: 1,
-          nav: false
-        },
-        480: {
-          items: 1,
-          nav: false
-        },
-        992: {
-          items: 2,
-          nav: false
-        }
-      }
-    })
-  })
-</script>
-<!-- //script for blog slider -->
-
-<script src="assets/js/owl.carousel.js"></script>
-
-<!-- script for banner slider-->
-<script>
-  $(document).ready(function () {
-    $('.owl-one').owlCarousel({
-      loop: true,
-      margin: 0,
-      nav: false,
-      responsiveClass: true,
-      autoplay: false,
-      autoplayTimeout: 5000,
-      autoplaySpeed: 1000,
-      autoplayHoverPause: false,
-      responsive: {
-        0: {
-          items: 1,
-          nav: false
-        },
-        480: {
-          items: 1,
-          nav: false
-        },
-        667: {
-          items: 1,
-          nav: false
-        },
-        1000: {
-          items: 1,
-          nav: false
-        }
-      }
-    })
-  })
-</script>
-<!-- //script -->
-
-
-<!-- disable body scroll which navbar is in active -->
-<script>
-  $(function () {
-    $('.navbar-toggler').click(function () {
-      $('body').toggleClass('noscroll');
-    })
-  });
-</script>
-<!-- disable body scroll which navbar is in active -->
-
-<!--/MENU-JS-->
-<script>
-  $(window).on("scroll", function () {
-    var scroll = $(window).scrollTop();
-
-    if (scroll >= 80) {
-      $("#site-header").addClass("nav-fixed");
-    } else {
-      $("#site-header").removeClass("nav-fixed");
-    }
-  });
-
-  //Main navigation Active Class Add Remove
-  $(".navbar-toggler").on("click", function () {
-    $("header").toggleClass("active");
-  });
-  $(document).on("ready", function () {
-    if ($(window).width() > 991) {
-      $("header").removeClass("active");
-    }
-    $(window).on("resize", function () {
-      if ($(window).width() > 991) {
-        $("header").removeClass("active");
-      }
-    });
-  });
-</script>
-<!--//MENU-JS-->
-
-<script src="assets/js/bootstrap.min.js"></script>
+    <!-- JavaScript -->
+    <script src="script.js"></script>
 </body>
-
 </html>

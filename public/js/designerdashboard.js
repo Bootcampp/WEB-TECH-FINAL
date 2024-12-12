@@ -22,8 +22,14 @@ document.addEventListener("DOMContentLoaded", function () {
             errorMessages.push("Please select a style or enter a new style.");
         }
 
+        // Validate New Style (if entered)
+        if (newStyleInput.value.trim() !== "" && !/^[a-zA-Z\s]+$/.test(newStyleInput.value.trim())) {
+            isValid = false;
+            errorMessages.push("New style must be a string containing only letters and spaces.");
+        }
+
         // Validate Price
-        if (priceInput.value.trim() === "" || parseFloat(priceInput.value) <= 0) {
+        if (priceInput.value.trim() === "" || isNaN(priceInput.value) || parseFloat(priceInput.value) <= 0) {
             isValid = false;
             errorMessages.push("Please enter a valid positive price.");
         }
@@ -32,6 +38,14 @@ document.addEventListener("DOMContentLoaded", function () {
         if (imageInput.files.length === 0) {
             isValid = false;
             errorMessages.push("Please upload an image of the design.");
+        } else {
+            // Check if file type is valid
+            const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+            const fileName = imageInput.files[0].name;
+            if (!allowedExtensions.exec(fileName)) {
+                isValid = false;
+                errorMessages.push("Please upload a valid image file (JPG, JPEG, PNG, or GIF).");
+            }
         }
 
         // Prevent Form Submission if Validation Fails

@@ -2,9 +2,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const signupForm = document.getElementById("signupForm");
 
     signupForm.addEventListener("submit", function (event) {
-        // Prevent the form from submitting until validation completes
-        event.preventDefault();
-
         // Get form field values
         const fullName = document.getElementById("name").value.trim();
         const email = document.getElementById("email").value.trim();
@@ -50,13 +47,11 @@ document.addEventListener("DOMContentLoaded", function () {
             errorMessages.push("Please select a role.");
         }
 
-        // If validation fails, display error messages and stop submission
+        // If validation fails, prevent form submission and show errors
         if (!isValid) {
+            event.preventDefault(); // Prevent form submission
             alert("Form submission failed:\n\n" + errorMessages.join("\n"));
-            return; // Stop here if validation fails
         }
-
-        // If validation passes, submit the form
-        signupForm.submit();
+        // If valid, the form will submit normally
     });
 });

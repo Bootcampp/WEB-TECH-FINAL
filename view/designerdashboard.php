@@ -29,7 +29,13 @@ if (isset($_SESSION['user_id'])) {
     header("Location: ../view/login.php");
     exit();
 }
+
+require_once '../functions/page_direct.php';
+checkUserAccess(2);
+// Rest of designer dashboard code
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -101,4 +107,5 @@ if (isset($_SESSION['user_id'])) {
         </main>
     </div>
 </body>
+<script src="../public/js/designerdashboard.js"></script>
 </html>

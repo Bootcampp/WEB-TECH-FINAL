@@ -26,14 +26,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             // Check role_id and redirect accordingly
             if ($role_id === 1) { // Role ID 1 is 'user'
-                header("Location: ../view/user_dashboard.php");
+                header("Location: ../view/usersdashboard.php");
                 exit();
             } elseif ($role_id === 2) { // Role ID 2 is 'designer'
                 header("Location: ../view/designerdashboard.php");
                 exit();
             } else {
                 // If role_id is not recognized, redirect to a generic dashboard or error page
-                header("Location: ../view/usersdashboard.php");
+                header("Location: ../view/user_dashboard.php");
                 exit();
             }
         } else {

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -57,4 +58,5 @@
         </section>
     </div>
 </body>
+<script src="../public/js/profile.js"></script>
 </html>
