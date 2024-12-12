@@ -79,7 +79,7 @@ $stmt->close();
         <!-- Header -->
         <header class="dashboard-header">
             <h1>Explore Bridal Designs</h1>
-            <p>Discover stunning dresses from top designers.</p>
+            <p>Discover stunning dresses from top Ghanaian designers.</p>
         </header>
 
         <!-- Designs Gallery -->
@@ -105,8 +105,27 @@ $stmt->close();
             <?php endif; ?>
         </div>
     </div>
-
+    
+    <!-- Dress Details Modal -->
+<div id="dress-details-modal" class="modal">
+    <div class="modal-content">
+        <span class="modal-close">&times;</span>
+        <div class="modal-image-container">
+            <img id="modal-dress-image" src="" alt="Dress Image" class="modal-dress-image">
+        </div>
+        <div class="modal-details">
+            <h2 id="modal-dress-name"></h2>
+            <p id="modal-designer-name" class="modal-designer"></p>
+            <p id="modal-style-name" class="modal-style"></p>
+            <p id="modal-price" class="modal-price"></p>
+            <div class="modal-actions">
+                <button class="btn save-btn">Save to Favorites</button>
+                <button class="btn purchase-btn">Purchase</button>
+            </div>
+        </div>
+    </div>
+</div>
     <!-- JavaScript -->
-    <script src="script.js"></script>
+    <script src="../public/js/userdasboard.js"></script>
 </body>
 </html>
