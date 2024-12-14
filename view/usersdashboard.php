@@ -4,7 +4,7 @@ include '../config/connection.php';
 session_start();
 
 // Check if the user is logged in
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION ['user_id'])) {
     header("Location: ../view/login.php");
     exit();
 }
@@ -60,6 +60,7 @@ $stmt->close();
     <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="navbar-container">
+        <a href="cart.php">Cart</a>
             <a href="../actions/logout.php" class="logout-btn">Logout</a>
 
             <form method="GET" action="" class="search-form">
@@ -94,7 +95,8 @@ $stmt->close();
                             <p class="style-name">Style: <?php echo htmlspecialchars($design['style_name']); ?></p>
                             <p class="price">Price: $<?php echo htmlspecialchars($design['price']); ?></p>
                             <div class="design-actions">
-                                <button class="btn save-btn">Save to Favorites</button>
+                                <!-- Added data-dress-id attribute to each Add to Cart button -->
+                                <button class="btn save-btn" data-dress-id="<?php echo htmlspecialchars($design['dress_id']); ?>">Add to cart</button>
                                 <button class="btn purchase-btn">Purchase</button>
                             </div>
                         </div>
@@ -107,24 +109,25 @@ $stmt->close();
     </div>
     
     <!-- Dress Details Modal -->
-<div id="dress-details-modal" class="modal">
-    <div class="modal-content">
-        <span class="modal-close">&times;</span>
-        <div class="modal-image-container">
-            <img id="modal-dress-image" src="" alt="Dress Image" class="modal-dress-image">
-        </div>
-        <div class="modal-details">
-            <h2 id="modal-dress-name"></h2>
-            <p id="modal-designer-name" class="modal-designer"></p>
-            <p id="modal-style-name" class="modal-style"></p>
-            <p id="modal-price" class="modal-price"></p>
-            <div class="modal-actions">
-                <button class="btn save-btn">Save to Favorites</button>
-                <button class="btn purchase-btn">Purchase</button>
+    <div id="dress-details-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <div class="modal-image-container">
+                <img id="modal-dress-image" src="" alt="Dress Image" class="modal-dress-image">
+            </div>
+            <div class="modal-details">
+                <h2 id="modal-dress-name"></h2>
+                <p id="modal-designer-name" class="modal-designer"></p>
+                <p id="modal-style-name" class="modal-style"></p>
+                <p id="modal-price" class="modal-price"></p>
+                <div class="modal-actions">
+                    <button class="btn save-btn">Add to cart</button>
+                    <button class="btn purchase-btn">Purchase</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+    
     <!-- JavaScript -->
     <script src="../public/js/userdasboard.js"></script>
 </body>

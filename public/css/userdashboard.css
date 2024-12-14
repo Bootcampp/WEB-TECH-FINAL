@@ -1,6 +1,9 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
 /* General Styles */
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: "Inter", serif;
   margin: 0;
   padding: 0;
   background-color: #fdf5f3; /* Soft nude background */
@@ -29,6 +32,27 @@ body {
   align-items: flex-end; /* Align items to the right */
   width: 100%;
   position: relative;
+}
+
+/* Cart Button Styling */
+.navbar a[href="cart.php"] {
+  position: absolute; /* Place it at a specific location */
+  top: 10px; /* Distance from the top of the navbar */
+  left: 20px; /* Distance from the left of the navbar */
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bold;
+  color: #5f4b3b; /* Warm brown color */
+  transition: color 0.3s ease;
+}
+
+.navbar a[href="cart.php"]:hover {
+  color: #b79a7e; /* Soft bronze color on hover */
+}
+
+/* Navbar Adjustments */
+.navbar {
+  position: relative; /* Ensure child elements with `absolute` can position relative to this */
 }
 
 /* Logout Button Styling */

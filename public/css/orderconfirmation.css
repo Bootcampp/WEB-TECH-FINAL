@@ -1,0 +1,47 @@
+body {
+    font-family: 'Playfair Display', serif;
+    background-color: #F5E6D3;
+    color: #4A4238;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+h1, h2 {
+    text-align: center;
+    color: #8B6E5E;
+    font-weight: 300;
+}
+
+h1 {
+    border-bottom: 2px solid #D2B48C;
+    padding-bottom: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #FFF5E6;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+table thead {
+    background-color: #E6D2C0;
+}
+
+table th, table td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #D2B48C;
+}
+
+p {
+    text-align: center;
+    color: #8B6E5E;
+    padding: 10px;
+    background-color: #FFF5E6;
+    border-radius: 5px;
+}

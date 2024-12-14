@@ -45,11 +45,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Handle "Save to Favorites"
-    saveButtons.forEach((btn) => {
-        btn.addEventListener("click", () => {
-            alert("Design saved to your favorites!");
-        });
-    });
+    // saveButtons.forEach((btn) => {
+    //     btn.addEventListener("click", () => {
+    //         alert("Design added to cart!");
+    //     });
+    // });
 
     // Handle "Purchase"
     purchaseButtons.forEach((btn) => {
@@ -90,6 +90,30 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.error('Error:', error);
                 alert('An error occurred during purchase.');
             });
+        });
+    });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    const addToCartButtons = document.querySelectorAll(".save-btn");
+
+    addToCartButtons.forEach(button => {
+        button.addEventListener("click", (event) => {
+            const dressId = button.getAttribute("data-dress-id");
+            fetch("../actions/add_to_cart.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: `dress_id=${dressId}&quantity=1`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    alert(data.message);
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => console.error("Error:", error));
         });
     });
 });
