@@ -97,7 +97,7 @@ $stmt->close();
                             <div class="design-actions">
                                 <!-- Added data-dress-id attribute to each Add to Cart button -->
                                 <button class="btn save-btn" data-dress-id="<?php echo htmlspecialchars($design['dress_id']); ?>">Add to cart</button>
-                                <button class="btn purchase-btn">Purchase</button>
+                                <button class="btn purchase-btn">Favorite</button>
                             </div>
                         </div>
                     </div>
@@ -122,7 +122,7 @@ $stmt->close();
                 <p id="modal-price" class="modal-price"></p>
                 <div class="modal-actions">
                     <button class="btn save-btn">Add to cart</button>
-                    <button class="btn purchase-btn">Purchase</button>
+                    <button class="btn purchase-btn">Favorite</button>
                 </div>
             </div>
         </div>

@@ -45,11 +45,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Handle "Save to Favorites"
-    // saveButtons.forEach((btn) => {
-    //     btn.addEventListener("click", () => {
-    //         alert("Design added to cart!");
-    //     });
-    // });
+    purchaseButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+            alert("Design added to favorites!");
+        });
+    });
+
+    
 
     // Handle "Purchase"
     purchaseButtons.forEach((btn) => {
