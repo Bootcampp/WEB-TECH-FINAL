@@ -45,3 +45,10 @@ p {
     background-color: #FFF5E6;
     border-radius: 5px;
 }
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .navbar-container {
+      align-items: center;
+    }
+}   

@@ -162,3 +162,10 @@ body {
 }
 
 }
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .navbar-container {
+      align-items: center;
+    }
+}

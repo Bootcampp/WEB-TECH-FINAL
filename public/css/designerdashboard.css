@@ -159,3 +159,10 @@ body {
 #new_style {
     margin-top: 5px;
 }
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .navbar-container {
+      align-items: center;
+    }
+}

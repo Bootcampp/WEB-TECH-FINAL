@@ -83,5 +83,5 @@ $conn->close();
         <button type="submit">Proceed to Checkout</button>
     </form>
 </body>
-<script src="../public/js/cart.js"></script>
+<script src="../public/js/cart.js"></script> 
 </html>

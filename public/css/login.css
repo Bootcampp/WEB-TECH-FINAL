@@ -118,3 +118,10 @@ body{
 .register-link a:hover {
     text-decoration: underline;
 }
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .navbar-container {
+      align-items: center;
+    }
+}

@@ -104,6 +104,13 @@ body{
     background-color: var(--button-hover);
 }
 
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .navbar-container {
+      align-items: center;
+    }
+}
+
 .register-link {
     margin-top: 10px;
     font-size: 14px;

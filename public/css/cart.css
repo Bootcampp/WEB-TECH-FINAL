@@ -101,3 +101,9 @@ h1 {
     color: #9C7C5A;
     font-style: italic;
 }
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .navbar-container {
+      align-items: center;
+    }
+}
