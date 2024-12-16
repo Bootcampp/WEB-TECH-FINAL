@@ -49,6 +49,7 @@ $conn->close();
 </head>
 <body>
     <h1>Order Confirmation</h1>
+    <a href="cart.php">Cart</a>
     <?php if ($order_details): ?>
         <p>Order #<?php echo $order_details['order_id']; ?></p>
         <p>Date: <?php echo $order_details['order_date']; ?></p>
@@ -78,5 +79,6 @@ $conn->close();
     <?php else: ?>
         <p>Invalid order.</p>
     <?php endif; ?>
+   
 </body>
 </html>

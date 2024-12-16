@@ -105,11 +105,11 @@ body{
 }
 
 /* Mobile Responsiveness */
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
     .navbar-container {
       align-items: center;
-    }
-}
+    } 
+} */
 
 .register-link {
     margin-top: 10px;
@@ -126,11 +126,6 @@ body{
     text-decoration: underline;
 }
 
-
-
-
-
-/* Enhanced Select Dropdown Styling */
 #role_id {
     width: 100%;
     padding: 10px;

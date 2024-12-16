@@ -75,7 +75,7 @@ $stmt->close();
             </form>
         </div>
     </nav>
-
+ 
     <div class="dashboard-container">
         <!-- Header -->
         <header class="dashboard-header">

@@ -39,7 +39,7 @@ if (isset($_SESSION['user_id'])) {
             <h2>BridalConnect</h2>
             <ul>
                 <li><a href="designerdashboard.php">Upload New Design</a></li>
-                <li><a href="profile.php">Profile</a></li>
+                <li><a href="designer_analytics.php">Analytics</a></li>
                 <li><a href="../actions/logout.php">Logout</a></li>
 
             </ul>

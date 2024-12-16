@@ -53,7 +53,7 @@ checkUserAccess(2);
                 <li><a href="#">Dashboard</a></li>
                 <li><a href="my_designs.php">My Designs</a></li>
                 <li><a href="#">Upload New Design</a></li>
-                <li><a href="profile.php">Profile</a></li>
+                <li><a href="designer_analytics.php">Analytics</a></li>
                 <li><a href="../actions/logout.php">Logout</a></li>
 
             </ul>
