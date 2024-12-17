@@ -1,7 +1,5 @@
 -- Drop and recreate database
-DROP DATABASE IF EXISTS bridalconnect;
-CREATE DATABASE bridalconnect CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE bridalconnect;
+
 
 -- Roles Table
 CREATE TABLE roles (
